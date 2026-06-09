@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>William Electrical Services | Fast & Reliable | 13th Junction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold2: #e8c97a;
+      --navy: #07111f;
+      --navy2: #0d1e36;
+      --blue: #123a6d;
+    }
+
+    body { font-family: 'DM Sans', sans-serif; }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* LOADER */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999; transition: opacity .7s ease;
+    }
+
+    /* HERO BG */
+    .hero-bg {
+      background:
+        linear-gradient(135deg, rgba(7,17,31,.97) 0%, rgba(13,30,54,.9) 45%, rgba(7,17,31,.75) 100%),
+        url('https://images.pexels.com/photos/8005397/pexels-photo-8005397.jpeg?w=1600&q=85') center/cover no-repeat;
+    }
+
+    /* GOLD GRADIENT TEXT */
+    .gold-text {
+      background: linear-gradient(135deg, #c9a84c, #e8c97a, #c9a84c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* NAV LINK UNDERLINE */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute;
+      width: 0; height: 2px;
+      bottom: -3px; left: 0;
+      background: var(--gold);
+      transition: width .3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* CARD HOVER */
+    .card-lift {
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+    }
+    .card-lift:hover {
+      transform: translateY(-10px) scale(1.015);
+      box-shadow: 0 28px 56px -12px rgba(0,0,0,.35);
+    }
+
+    /* GOLD TOP BORDER */
+    .gold-top { position: relative; overflow: hidden; }
+    .gold-top::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gold);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .35s ease;
+    }
+    .gold-top:hover::before { transform: scaleX(1); }
+
+    /* SECTION REVEAL */
+    .reveal {
+      opacity: 0; transform: translateY(34px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: .1s; }
+    .reveal.d2 { transition-delay: .2s; }
+    .reveal.d3 { transition-delay: .3s; }
+    .reveal.d4 { transition-delay: .4s; }
+    .reveal.d5 { transition-delay: .5s; }
+
+    /* PHOTO ZOOM */
+    .photo-zoom img { transition: transform .5s ease; }
+    .photo-zoom:hover img { transform: scale(1.08); }
+
+    /* PRICING ROW */
+    .price-row:hover { background: rgba(201,168,76,.06); }
+
+    /* PARTICLES */
+    #particles { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+
+    /* PULSE DOT */
+    .pulse-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--gold);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.85)} }
+
+    /* SCROLL ARROW BOUNCE */
+    .bounce { animation: bounce 2s infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+
+    /* SERVICE PHOTO */
+    .svc-img { height: 190px; overflow: hidden; }
+    .svc-img img { width:100%; height:100%; object-fit:cover; transition:.4s; }
+    .svc-card:hover .svc-img img { transform: scale(1.07); }
+
+    /* FORM INPUTS */
+    .form-input {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 12px; padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .93rem; color: #fff;
+      outline: none; transition: .2s; width: 100%;
+    }
+    .form-input:focus { border-color: var(--gold); background: rgba(201,168,76,.06); }
+    .form-input::placeholder { color: rgba(255,255,255,.28); }
+    .form-input option { background: #0d1e36; color: #fff; }
+
+    /* SHOWCASE GRID */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      grid-template-rows: 260px 260px;
+      gap: 14px;
+    }
+    .show-wide { grid-column: span 2; }
+    @media(max-width:768px){
+      .showcase-grid { grid-template-columns:1fr 1fr; grid-template-rows:auto; }
+      .show-wide { grid-column: span 1; }
+    }
+    @media(max-width:500px){
+      .showcase-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden" style="background:var(--navy); color:#e2e8f0;">
+
+<!-- ══════════════════════════════
+     LOADING SCREEN
+══════════════════════════════ -->
+<div id="loader">
+  <div class="text-center">
+    <div class="flex justify-center mb-6">
+      <div class="w-16 h-16 rounded-full border-4 border-t-transparent animate-spin" style="border-color: var(--gold); border-top-color: transparent;"></div>
+    </div>
+    <div class="flex items-center justify-center gap-3 mb-3">
+      <div style="width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-bolt" style="color:var(--navy);font-size:18px;"></i>
+      </div>
+    </div>
+    <p class="serif text-2xl font-bold text-white">William Electrical</p>
+    <p class="text-xs tracking-widest mt-1" style="color:var(--gold);">SERVICES</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════
+     NAVBAR
+══════════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+     style="background:rgba(7,17,31,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(201,168,76,.18);">
+  <div class="max-w-7xl mx-auto px-6 flex justify-between items-center" style="height:76px;">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-3 no-underline">
+      <div style="width:40px;height:40px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-bolt" style="color:var(--navy);font-size:18px;"></i>
+      </div>
+      <div>
+        <div class="serif font-bold text-white" style="font-size:1.1rem;line-height:1.1;">William Electrical</div>
+        <div style="font-size:.62rem;letter-spacing:2.5px;color:var(--gold);text-transform:uppercase;">Services</div>
+      </div>
+    </a>
+
+    <!-- Links desktop -->
+    <ul class="hidden md:flex items-center gap-7 list-none">
+      <li><a href="#about" class="nav-link text-slate-300 hover:text-white text-sm font-medium transition">About</a></li>
+      <li><a href="#services" class="nav-link text-slate-300 hover:text-white text-sm font-medium transition">Services</a></li>
+      <li><a href="#showcase" class="nav-link text-slate-300 hover:text-white text-sm font-medium transition">Portfolio</a></li>
+      <li><a href="#pricing" class="nav-link text-slate-300 hover:text-white text-sm font-medium transition">Pricing</a></li>
+      <li><a href="#contact" class="nav-link text-slate-300 hover:text-white text-sm font-medium transition">Contact</a></li>
+    </ul>
+
+    <!-- CTA buttons -->
+    <div class="hidden md:flex items-center gap-3">
+      <a href="tel:0532974787"
+         class="flex items-center gap-2 font-semibold text-sm px-5 py-2.5 rounded-xl transition"
+         style="background:var(--gold);color:var(--navy);">
+        <i class="fas fa-phone text-xs"></i> 0532974787
+      </a>
+      <a href="https://wa.me/233532974787" target="_blank"
+         class="flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white font-semibold text-sm px-4 py-2.5 rounded-xl transition">
+        <i class="fab fa-whatsapp text-base"></i>
+      </a>
+    </div>
+
+    <!-- Burger -->
+    <button id="burger" class="md:hidden flex flex-col gap-1.5 cursor-pointer bg-transparent border-0 p-1" onclick="toggleNav()">
+      <span class="block w-6 h-0.5 bg-white rounded transition-all"></span>
+      <span class="block w-6 h-0.5 bg-white rounded transition-all"></span>
+      <span class="block w-6 h-0.5 bg-white rounded transition-all"></span>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="hidden md:hidden px-6 pb-5 flex-col gap-4"
+       style="background:rgba(7,17,31,.98);border-top:1px solid rgba(201,168,76,.1);">
+    <a href="#about" onclick="closeMobile()" class="block py-2 text-slate-300 hover:text-white text-sm font-medium">About</a>
+    <a href="#services" onclick="closeMobile()" class="block py-2 text-slate-300 hover:text-white text-sm font-medium">Services</a>
+    <a href="#showcase" onclick="closeMobile()" class="block py-2 text-slate-300 hover:text-white text-sm font-medium">Portfolio</a>
+    <a href="#pricing" onclick="closeMobile()" class="block py-2 text-slate-300 hover:text-white text-sm font-medium">Pricing</a>
+    <a href="#contact" onclick="closeMobile()" class="block py-2 text-slate-300 hover:text-white text-sm font-medium">Contact</a>
+    <div class="flex gap-3 pt-2">
+      <a href="tel:0532974787" class="flex-1 text-center py-3 rounded-xl font-bold text-sm transition" style="background:var(--gold);color:var(--navy);">
+        <i class="fas fa-phone mr-2"></i>Call Now
+      </a>
+      <a href="https://wa.me/233532974787" class="px-5 py-3 rounded-xl bg-green-500 text-white font-semibold text-sm">
+        <i class="fab fa-whatsapp text-base"></i>
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero-bg min-h-screen flex items-center relative overflow-hidden" style="padding-top:76px;">
+  <canvas id="particles"></canvas>
+
+  <div class="max-w-7xl mx-auto px-6 w-full relative z-10 py-20">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Left -->
+      <div class="reveal">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full mb-7 text-sm font-semibold"
+             style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);color:var(--gold);">
+          <div class="pulse-dot"></div>
+          Trusted Local Electrical Expert
+        </div>
+
+        <h1 class="serif font-bold leading-tight mb-6 text-white" style="font-size:clamp(2.8rem,6vw,4.5rem);line-height:1.1;">
+          Fast, Affordable &amp;<br>
+          <em class="gold-text not-italic">Reliable Electrical</em><br>
+          Services
+        </h1>
+
+        <p class="mb-9 leading-relaxed" style="color:rgba(255,255,255,.68);font-size:1.05rem;max-width:520px;">
+          Professional electrical repairs, wiring, lighting, fan installation and fault fixing near
+          <strong style="color:var(--gold);">13th Junction</strong> and surrounding communities.
+        </p>
+
+        <div class="flex flex-wrap gap-4 mb-12">
+          <a href="tel:0532974787"
+             class="flex items-center gap-3 font-bold text-base px-8 py-4 rounded-2xl transition hover:scale-105"
+             style="background:var(--gold);color:var(--navy);">
+            <i class="fas fa-phone"></i> Call 0532974787
+          </a>
+          <a href="https://wa.me/233532974787" target="_blank"
+             class="flex items-center gap-3 bg-green-500 hover:bg-green-400 text-white font-bold text-base px-8 py-4 rounded-2xl transition hover:scale-105">
+            <i class="fab fa-whatsapp text-xl"></i> WhatsApp Now
+          </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="grid grid-cols-4 gap-0 pt-8" style="border-top:1px solid rgba(255,255,255,.08);">
+          <div class="text-center pr-4" style="border-right:1px solid rgba(255,255,255,.08);">
+            <div style="font-size:1.7rem;color:var(--gold);">⚡</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Fault Repairs</div>
+          </div>
+          <div class="text-center px-4" style="border-right:1px solid rgba(255,255,255,.08);">
+            <div style="font-size:1.7rem;color:var(--gold);">💡</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Lighting</div>
+          </div>
+          <div class="text-center px-4" style="border-right:1px solid rgba(255,255,255,.08);">
+            <div style="font-size:1.7rem;color:var(--gold);">🔧</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Installation</div>
+          </div>
+          <div class="text-center pl-4">
+            <div style="font-size:1.7rem;color:var(--gold);">🏠</div>
+            <div style="font-size:.7rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:1px;margin-top:4px;">Room Wiring</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right — photo card -->
+      <div class="reveal d2 hidden md:block">
+        <div class="relative">
+          <div class="absolute -top-4 -right-4 z-10 font-bold text-xs px-4 py-2 rounded-lg shadow-xl"
+               style="background:var(--gold);color:var(--navy);letter-spacing:1px;">
+            AVAILABLE NOW
+          </div>
+          <div class="rounded-2xl overflow-hidden" style="aspect-ratio:4/5;position:relative;">
+            <img src="https://images.pexels.com/photos/8005397/pexels-photo-8005397.jpeg?auto=compress&cs=tinysrgb&w=700"
+                 alt="Electrician working" class="w-full h-full object-cover"/>
+            <div class="absolute inset-0" style="background:linear-gradient(180deg,transparent 50%,rgba(7,17,31,.88) 100%);"></div>
+            <!-- Badge inside photo -->
+            <div class="absolute bottom-6 left-5 right-5 flex items-center gap-4 p-4 rounded-xl"
+                 style="background:rgba(7,17,31,.85);backdrop-filter:blur(10px);border:1px solid rgba(201,168,76,.22);">
+              <div style="width:42px;height:42px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <i class="fas fa-bolt" style="color:var(--navy);font-size:17px;"></i>
+              </div>
+              <div>
+                <div class="text-white font-semibold text-sm">William Electrical Services</div>
+                <div style="color:rgba(255,255,255,.5);font-size:.75rem;">📍 Near 13th Junction · 0532974787</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll arrow -->
+  <a href="#about" class="bounce absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+     style="color:rgba(255,255,255,.4);">
+    <i class="fas fa-chevron-down text-2xl"></i>
+  </a>
+</section>
+
+
+<!-- ══════════════════════════════
+     ABOUT
+══════════════════════════════ -->
+<section id="about" class="py-24" style="background:#0b1929;">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-16 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">About William</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">Professional Electrical Work<br>You Can Count On</h2>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-14 items-center mb-16">
+      <!-- Photos -->
+      <div class="grid grid-cols-2 gap-3 reveal">
+        <div class="rounded-2xl overflow-hidden row-span-2 photo-zoom" style="min-height:380px;">
+          <!-- African electrician working on wiring -->
+          <img src="https://images.pexels.com/photos/8005397/pexels-photo-8005397.jpeg?auto=compress&cs=tinysrgb&w=500"
+               alt="Electrician at work" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-2xl overflow-hidden photo-zoom" style="height:184px;">
+          <!-- African technician with electrical panel/tools -->
+          <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=400"
+               alt="Electrical panel" class="w-full h-full object-cover"/>
+        </div>
+        <div class="rounded-2xl overflow-hidden photo-zoom" style="height:184px;">
+          <!-- Ceiling light installation -->
+          <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=400"
+               alt="Lighting installation" class="w-full h-full object-cover"/>
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="reveal d2">
+        <p class="leading-relaxed mb-4" style="color:rgba(255,255,255,.65);font-size:.97rem;">
+          William Electrical Services provides electrical repairs, installations, fault diagnosis and wiring services for homes and businesses near <strong style="color:var(--gold)">13th Junction</strong> and surrounding areas.
+        </p>
+        <p class="leading-relaxed mb-8" style="color:rgba(255,255,255,.65);font-size:.97rem;">
+          Every project is handled with care, attention to detail and a commitment to customer satisfaction. Whether it's a small socket fix or a full room wiring job — the work is done right.
+        </p>
+
+        <div class="flex flex-col gap-5">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:rgba(201,168,76,.12);">⚡</div>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Fast Response</div>
+              <div style="color:rgba(255,255,255,.5);font-size:.85rem;">Quick assistance when you need it — no long waiting.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:rgba(201,168,76,.12);">🔧</div>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Reliable Work</div>
+              <div style="color:rgba(255,255,255,.5);font-size:.85rem;">Clean, professional installations done correctly the first time.</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:rgba(201,168,76,.12);">💰</div>
+            <div>
+              <div class="font-semibold text-white text-sm mb-1">Affordable Pricing</div>
+              <div style="color:rgba(255,255,255,.5);font-size:.85rem;">Quality service at fair rates — no hidden fees, ever.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 trust cards -->
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="p-8 rounded-3xl card-lift gold-top reveal" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <i class="fas fa-clock text-4xl mb-5" style="color:var(--gold);"></i>
+        <h3 class="text-xl font-semibold text-white mb-3">Fast Response</h3>
+        <p style="color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;">Quick support when electrical problems occur — no long waiting times.</p>
+      </div>
+      <div class="p-8 rounded-3xl card-lift gold-top reveal d2" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <i class="fas fa-shield-alt text-4xl mb-5" style="color:var(--gold);"></i>
+        <h3 class="text-xl font-semibold text-white mb-3">Reliable & Safe</h3>
+        <p style="color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;">Professional work following electrical safety standards for your protection.</p>
+      </div>
+      <div class="p-8 rounded-3xl card-lift gold-top reveal d3" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <i class="fas fa-hand-holding-dollar text-4xl mb-5" style="color:var(--gold);"></i>
+        <h3 class="text-xl font-semibold text-white mb-3">Transparent Pricing</h3>
+        <p style="color:rgba(255,255,255,.5);font-size:.88rem;line-height:1.7;">No hidden fees. Clear, fair quotes before any work begins.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     SERVICES
+══════════════════════════════ -->
+<section id="services" class="py-24" style="background:var(--navy);">
+  <div class="max-w-7xl mx-auto px-6">
+
+    <div class="text-center mb-14 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">Services</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">What We Do</h2>
+      <p class="mt-3 mx-auto" style="color:rgba(255,255,255,.5);max-width:540px;font-size:.96rem;">
+        Professional electrical services tailored for homes, shops and small businesses near 13th Junction.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Service cards with photos -->
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- African electrician diagnosing/repairing a fault -->
+          <img src="https://images.pexels.com/photos/8005397/pexels-photo-8005397.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Fault Repair"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">⚡</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Fault Repairs</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Fast diagnosis and repair of electrical faults keeping your home or business running safely.</p>
+        </div>
+      </div>
+
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal d1" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- Electrician installing socket/outlet on wall -->
+          <img src="https://images.pexels.com/photos/6489663/pexels-photo-6489663.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Socket Installation"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">🔌</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Switch & Socket Installation</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Installation and replacement of switches and sockets done neatly and securely.</p>
+        </div>
+      </div>
+
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal d2" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- Ceiling light / bulb installation -->
+          <img src="https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Lighting Installation"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">💡</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Lighting Installation</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Indoor and outdoor lighting solutions for any room, shop or outdoor space.</p>
+        </div>
+      </div>
+
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal d1" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- Ceiling fan on roof of African home -->
+          <img src="https://images.pexels.com/photos/4270074/pexels-photo-4270074.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Fan Installation"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">🌀</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Fan Installation</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Professional ceiling fan installation and setup done safely and correctly.</p>
+        </div>
+      </div>
+
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal d2" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- Electrician laying wires through conduit in a wall/room -->
+          <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Room Wiring"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">🏠</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Room Wiring</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Complete room and small shop wiring for new builds and renovations.</p>
+        </div>
+      </div>
+
+      <div class="svc-card rounded-2xl overflow-hidden card-lift gold-top reveal d3" style="background:#0d1e36;border:1px solid rgba(255,255,255,.07);">
+        <div class="svc-img">
+          <!-- Electrical meter / circuit breaker box close-up -->
+          <img src="https://images.pexels.com/photos/6754178/pexels-photo-6754178.jpeg?auto=compress&cs=tinysrgb&w=500" alt="Meter Maintenance"/>
+        </div>
+        <div class="p-6">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center text-xl mb-4" style="background:var(--navy);border:2px solid #fff;margin-top:-36px;position:relative;z-index:2;">🛠</div>
+          <h3 class="text-lg font-semibold text-white mb-2">Meter Issues & Maintenance</h3>
+          <p style="color:rgba(255,255,255,.5);font-size:.86rem;line-height:1.7;">Electrical troubleshooting, maintenance and upgrades for lasting performance.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     PHOTO SHOWCASE / PORTFOLIO
+══════════════════════════════ -->
+<section id="showcase" class="py-24" style="background:#0b1929;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-12 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">Portfolio</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">Electrical Work Done Right</h2>
+      <p class="mt-3 mx-auto" style="color:rgba(255,255,255,.5);max-width:520px;">Real electrical work — panels, wiring, installations and more.</p>
+    </div>
+
+    <div class="showcase-grid reveal">
+
+      <div class="show-wide rounded-2xl overflow-hidden relative group" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1621905251189-08b45249ff25?w=900&q=80"
+             alt="Panel installation" class="w-full h-full object-cover transition duration-500 group-hover:scale-105"/>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300"
+             style="background:linear-gradient(180deg,transparent 40%,rgba(7,17,31,.8) 100%);"></div>
+        <div class="absolute bottom-4 left-5 text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          Panel Installation
+        </div>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden relative group" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80"
+             alt="Wiring" class="w-full h-full object-cover transition duration-500 group-hover:scale-105"/>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300"
+             style="background:linear-gradient(180deg,transparent 40%,rgba(7,17,31,.8) 100%);"></div>
+        <div class="absolute bottom-4 left-5 text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          Fault Diagnosis
+        </div>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden relative group" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1565043666747-69f6646db940?w=500&q=80"
+             alt="Lighting" class="w-full h-full object-cover transition duration-500 group-hover:scale-105"/>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300"
+             style="background:linear-gradient(180deg,transparent 40%,rgba(7,17,31,.8) 100%);"></div>
+        <div class="absolute bottom-4 left-5 text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          Lighting Setup
+        </div>
+      </div>
+
+      <div class="rounded-2xl overflow-hidden relative group" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=500&q=80"
+             alt="Tools" class="w-full h-full object-cover transition duration-500 group-hover:scale-105"/>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300"
+             style="background:linear-gradient(180deg,transparent 40%,rgba(7,17,31,.8) 100%);"></div>
+        <div class="absolute bottom-4 left-5 text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          Professional Tools
+        </div>
+      </div>
+
+      <div class="show-wide rounded-2xl overflow-hidden relative group" style="min-height:260px;">
+        <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=900&q=80"
+             alt="Room wiring" class="w-full h-full object-cover transition duration-500 group-hover:scale-105"/>
+        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300"
+             style="background:linear-gradient(180deg,transparent 40%,rgba(7,17,31,.8) 100%);"></div>
+        <div class="absolute bottom-4 left-5 text-white font-semibold text-sm opacity-0 group-hover:opacity-100 transition duration-300 translate-y-2 group-hover:translate-y-0">
+          Room Wiring
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     PRICING
+══════════════════════════════ -->
+<section id="pricing" class="py-24" style="background:var(--navy);">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">Pricing</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">Affordable, Transparent Pricing</h2>
+      <p class="mt-3" style="color:rgba(255,255,255,.5);">No hidden charges. What you see is what you pay.</p>
+    </div>
+
+    <div class="max-w-3xl mx-auto rounded-3xl overflow-hidden reveal" style="border:1px solid rgba(255,255,255,.08);">
+      <div class="grid grid-cols-2 px-8 py-4" style="background:rgba(201,168,76,.15);">
+        <span style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Service</span>
+        <span class="text-right" style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Price (GHS)</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition" style="border-bottom:1px solid rgba(255,255,255,.06);">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Fault Repair</span>
+        <span class="text-right font-bold" style="color:var(--gold);">30 – 80 GHS</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition" style="border-bottom:1px solid rgba(255,255,255,.06);">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Socket Installation</span>
+        <span class="text-right font-bold" style="color:var(--gold);">40 – 70 GHS</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition" style="border-bottom:1px solid rgba(255,255,255,.06);">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Light Installation</span>
+        <span class="text-right font-bold" style="color:var(--gold);">30 – 60 GHS</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition" style="border-bottom:1px solid rgba(255,255,255,.06);">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Fan Installation</span>
+        <span class="text-right font-bold" style="color:var(--gold);">50 – 100 GHS</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition" style="border-bottom:1px solid rgba(255,255,255,.06);">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Room Wiring</span>
+        <span class="text-right font-bold" style="color:var(--gold);">150 – 300 GHS</span>
+      </div>
+      <div class="price-row grid grid-cols-2 px-8 py-5 transition">
+        <span style="color:rgba(255,255,255,.85);font-weight:500;">Call Out Fee</span>
+        <span class="text-right font-bold" style="color:var(--gold);">20 – 30 GHS</span>
+      </div>
+    </div>
+    <p class="text-center mt-6 text-sm" style="color:rgba(255,255,255,.35);">* Final price depends on scope of work. Call for a free quote.</p>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     WHY US
+══════════════════════════════ -->
+<section class="py-24" style="background:#0b1929;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">Why Us</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">Why Customers Choose William</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="p-8 rounded-3xl text-center card-lift gold-top reveal" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <div class="text-4xl mb-4">⚡</div>
+        <h3 class="text-white font-semibold mb-2">Fast Response</h3>
+        <p style="color:rgba(255,255,255,.45);font-size:.84rem;line-height:1.65;">Quick support when electrical problems occur.</p>
+      </div>
+      <div class="p-8 rounded-3xl text-center card-lift gold-top reveal d1" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <div class="text-4xl mb-4">🛠</div>
+        <h3 class="text-white font-semibold mb-2">Reliable Work</h3>
+        <p style="color:rgba(255,255,255,.45);font-size:.84rem;line-height:1.65;">Professional and dependable service every time.</p>
+      </div>
+      <div class="p-8 rounded-3xl text-center card-lift gold-top reveal d2" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <div class="text-4xl mb-4">💰</div>
+        <h3 class="text-white font-semibold mb-2">Affordable</h3>
+        <p style="color:rgba(255,255,255,.45);font-size:.84rem;line-height:1.65;">Fair pricing without compromising on quality.</p>
+      </div>
+      <div class="p-8 rounded-3xl text-center card-lift gold-top reveal d3" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+        <div class="text-4xl mb-4">😊</div>
+        <h3 class="text-white font-semibold mb-2">Satisfaction</h3>
+        <p style="color:rgba(255,255,255,.45);font-size:.84rem;line-height:1.65;">Customer satisfaction is always the priority.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     CTA BANNER
+══════════════════════════════ -->
+<section class="py-20 text-center relative overflow-hidden" style="background:linear-gradient(135deg,#071322,#0f2849);">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse at 70% 50%,rgba(201,168,76,.1),transparent 70%);"></div>
+  <div class="max-w-2xl mx-auto px-6 relative z-10 reveal">
+    <h2 class="serif font-bold text-white mb-5" style="font-size:clamp(2rem,4vw,3rem);">Need Electrical Help Today?</h2>
+    <p class="mb-8" style="color:rgba(255,255,255,.65);line-height:1.85;">
+      Call or WhatsApp William now for fast and reliable electrical services near 13th Junction and surrounding areas.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="tel:0532974787"
+         class="flex items-center gap-3 font-bold px-10 py-5 rounded-2xl text-lg transition hover:scale-105"
+         style="background:var(--gold);color:var(--navy);">
+        <i class="fas fa-phone"></i> Call 0532974787
+      </a>
+      <a href="https://wa.me/233532974787"
+         class="flex items-center gap-3 bg-green-500 hover:bg-green-400 text-white font-bold px-10 py-5 rounded-2xl text-lg transition hover:scale-105">
+        <i class="fab fa-whatsapp text-xl"></i> WhatsApp Now
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     CONTACT
+══════════════════════════════ -->
+<section id="contact" class="py-24" style="background:#0b1929;">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-14 reveal">
+      <p style="color:var(--gold);font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;">Contact</p>
+      <h2 class="serif font-bold text-white" style="font-size:clamp(2rem,4vw,2.9rem);">Get In Touch</h2>
+      <p class="mt-3" style="color:rgba(255,255,255,.5);">Monday to Saturday. Sunday for emergencies only.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-start max-w-5xl mx-auto">
+
+      <!-- Info -->
+      <div class="reveal">
+        <div class="flex flex-col gap-7">
+          <a href="tel:0532974787" class="flex items-center gap-5 group">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition group-hover:scale-105"
+                 style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);">
+              <i class="fas fa-phone text-xl" style="color:var(--gold);"></i>
+            </div>
+            <div>
+              <div class="text-white font-semibold text-sm mb-1">Phone</div>
+              <div style="color:var(--gold);font-size:.95rem;font-weight:600;">0532974787</div>
+            </div>
+          </a>
+          <a href="https://wa.me/233532974787" class="flex items-center gap-5 group">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition group-hover:scale-105"
+                 style="background:rgba(37,211,102,.12);border:1px solid rgba(37,211,102,.2);">
+              <i class="fab fa-whatsapp text-2xl text-green-400"></i>
+            </div>
+            <div>
+              <div class="text-white font-semibold text-sm mb-1">WhatsApp</div>
+              <div class="text-green-400 font-semibold text-sm">+233 532 974 787</div>
+            </div>
+          </a>
+          <div class="flex items-center gap-5">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0"
+                 style="background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);">
+              <i class="fas fa-map-marker-alt text-xl" style="color:var(--gold);"></i>
+            </div>
+            <div>
+              <div class="text-white font-semibold text-sm mb-1">Location</div>
+              <div style="color:rgba(255,255,255,.5);font-size:.88rem;">Near 13th Junction<br/>Mon–Sat | Sunday Emergency Only</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial -->
+        <div class="mt-10 p-7 rounded-2xl" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);">
+          <div class="text-yellow-400 mb-3" style="letter-spacing:2px;">★★★★★</div>
+          <p class="italic mb-5" style="color:rgba(255,255,255,.7);font-size:.93rem;line-height:1.75;">
+            "William came the same day and fixed our wiring issue safely. Very professional and affordable!"
+          </p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm serif"
+                 style="background:var(--blue);color:var(--gold);">KA</div>
+            <div>
+              <div class="text-white font-semibold text-sm">Kofi Asante</div>
+              <div style="color:rgba(255,255,255,.4);font-size:.75rem;">Near 13th Junction</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="p-8 rounded-3xl reveal d2" style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);">
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-semibold mb-2" style="color:rgba(255,255,255,.55);letter-spacing:.3px;">Your Name</label>
+            <input type="text" placeholder="Your name" class="form-input"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold mb-2" style="color:rgba(255,255,255,.55);">Phone Number</label>
+            <input type="tel" placeholder="0XX XXX XXXX" class="form-input"/>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label class="block text-xs font-semibold mb-2" style="color:rgba(255,255,255,.55);">Service Needed</label>
+          <select class="form-input">
+            <option value="">Select a service...</option>
+            <option>Fault Repair</option>
+            <option>Socket / Switch Installation</option>
+            <option>Lighting Installation</option>
+            <option>Fan Installation</option>
+            <option>Room Wiring</option>
+            <option>Meter Issues / Maintenance</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="mb-5">
+          <label class="block text-xs font-semibold mb-2" style="color:rgba(255,255,255,.55);">Message / Details</label>
+          <textarea rows="4" placeholder="Describe your electrical problem..." class="form-input"></textarea>
+        </div>
+        <button id="formBtn" onclick="sendForm()"
+                class="w-full py-4 rounded-2xl font-bold text-base transition"
+                style="background:var(--gold);color:var(--navy);">
+          Send Message →
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════
+     FOOTER
+══════════════════════════════ -->
+<footer style="background:#040c17;border-top:1px solid rgba(255,255,255,.05);">
+  <div class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div style="width:38px;height:38px;background:var(--gold);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-bolt" style="color:var(--navy);font-size:17px;"></i>
+          </div>
+          <div>
+            <div class="serif font-bold text-white text-lg">William Electrical</div>
+            <div style="font-size:.6rem;letter-spacing:2px;color:var(--gold);text-transform:uppercase;">Services</div>
+          </div>
+        </div>
+        <p style="color:rgba(255,255,255,.4);font-size:.86rem;line-height:1.8;max-width:300px;">
+          Professional electrical repairs, installations, room wiring, lighting and maintenance near 13th Junction.
+        </p>
+      </div>
+      <div>
+        <h4 style="color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Services</h4>
+        <ul class="flex flex-col gap-3 list-none">
+          <li><a href="#services" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;transition:.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Fault Repairs</a></li>
+          <li><a href="#services" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Room Wiring</a></li>
+          <li><a href="#services" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Lighting</a></li>
+          <li><a href="#services" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Fan Installation</a></li>
+          <li><a href="#services" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Socket Installation</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="color:rgba(255,255,255,.85);font-size:.8rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px;">Contact</h4>
+        <ul class="flex flex-col gap-3 list-none">
+          <li><a href="tel:0532974787" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">📞 0532974787</a></li>
+          <li><a href="https://wa.me/233532974787" style="color:rgba(255,255,255,.4);font-size:.86rem;text-decoration:none;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">💬 WhatsApp</a></li>
+          <li><span style="color:rgba(255,255,255,.4);font-size:.86rem;">📍 Near 13th Junction</span></li>
+          <li><span style="color:rgba(255,255,255,.4);font-size:.86rem;">🕐 Mon–Sat | Sun Emergency</span></li>
+        </ul>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.06);padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+      <p style="color:rgba(255,255,255,.25);font-size:.8rem;">© 2026 William Electrical Services. All Rights Reserved.</p>
+      <span style="color:var(--gold);font-size:.8rem;">Near 13th Junction · 0532974787</span>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ══════════════════════════════
+     FLOATING WHATSAPP
+══════════════════════════════ -->
+<a href="https://wa.me/233532974787" target="_blank"
+   class="fixed bottom-7 right-7 w-16 h-16 rounded-full bg-green-500 hover:bg-green-400 flex items-center justify-center text-white text-3xl shadow-2xl z-50 transition hover:scale-110">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+
+<script>
+  // ── LOADER ──
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(() => loader.style.display = 'none', 700);
+    }, 1400);
+  });
+
+  // ── PARTICLES ──
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const particles = [];
+  class P {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + .8;
+      this.sx = (Math.random() - .5) * .4;
+      this.sy = (Math.random() - .5) * .4;
+      this.alpha = Math.random() * .5 + .15;
+    }
+    update() {
+      this.x += this.sx; this.y += this.sy;
+      if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(201,168,76,${this.alpha})`;
+      ctx.fill();
+    }
+  }
+
+  for(let i=0;i<90;i++) particles.push(new P());
+
+  function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // ── SCROLL REVEAL ──
+  const revEls = document.querySelectorAll('.reveal');
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revEls.forEach(el => revObs.observe(el));
+
+  // ── NAV SCROLL ──
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    nav.style.boxShadow = window.scrollY > 30 ? '0 4px 32px rgba(0,0,0,.6)' : 'none';
+  });
+
+  // ── MOBILE NAV ──
+  function toggleNav() {
+    const m = document.getElementById('mobileMenu');
+    m.classList.toggle('hidden');
+    m.classList.toggle('flex');
+  }
+  function closeMobile() {
+    const m = document.getElementById('mobileMenu');
+    m.classList.add('hidden');
+    m.classList.remove('flex');
+  }
+
+  // ── FORM ──
+  function sendForm() {
+    const btn = document.getElementById('formBtn');
+    btn.textContent = '✓ Sent! William will call you soon.';
+    btn.style.background = '#1e7e4a';
+    btn.style.color = '#fff';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.textContent = 'Send Message →';
+      btn.style.background = 'var(--gold)';
+      btn.style.color = 'var(--navy)';
+      btn.disabled = false;
+    }, 5000);
+  }
+</script>
+</body>
+</html>
